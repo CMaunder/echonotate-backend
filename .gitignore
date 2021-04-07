@@ -1,3 +1,5 @@
 tabscribe-predict-notes-venv
 .vscode
 tsvenv
+.env
+tempSoundFiles
