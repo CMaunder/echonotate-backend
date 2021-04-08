@@ -1,16 +1,28 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import librosa
 import os
 from os import path
 from pydub import AudioSegment
 import boto3
 from decouple import config
-
+import jwt
 app = Flask(__name__)
 
+@app.route('/predicted-notes')
+def get_notes():
+    auth_header = request.headers.get('Authorization')
+    auth_token = auth_header.split()[1]
+    try:
+        payload = jwt.decode(auth_token, config('AUTH_JWT_SECRET_KEY'), algorithms=["HS256"])
+        print(payload)
+    except jwt.ExpiredSignatureError:
+        return 'Signature expired.', 403
+    except jwt.InvalidTokenError:
+        return 'Invalid token.', 403
+    
+    # json_payload = json.loads(str(payload))
+    filename = payload['trackInfo']['key']
 
-@app.route('/predicted-notes/<filename>')
-def get_notes(filename):
     BUCKET_NAME_STRING='tabscribe-audio-store'
     #TODO handle wav, m4a
     tempfilename = './tempSoundFiles/tempfilename.mp3'
@@ -29,4 +41,4 @@ def get_notes(filename):
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
