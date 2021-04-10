@@ -60,7 +60,7 @@ class PredictNotes:
                                         fps, notes[noteIdx][1] / fps, notes[noteIdx][2]]
     return notes_conv
 
-  def predict_notes(self, audio_track, sample_rate):
+  def main(self, audio_track, sample_rate):
     length_of_track_s = len(audio_track) / sample_rate
     model = keras.models.load_model('./models/notePredictModel.h5')
     y_log_scale = self.convert_audio_to_spectrogram(audio_track)
@@ -100,8 +100,3 @@ class PredictNotes:
     notes_dict_s = self.convert_notes_dict_to_seconds_from_frames(
         notes_dict, frames_per_second)
     return notes_dict_s
-
-learnNotes = PredictNotes()
-filename = './tempSoundFiles/tempfilename.mp3'
-a, sr = librosa.load(filename)
-print(learnNotes.predict_notes(a, sr))
