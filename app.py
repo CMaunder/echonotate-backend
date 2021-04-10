@@ -6,7 +6,7 @@ from pydub import AudioSegment
 import boto3
 from decouple import config
 import jwt
-# from PredictNotes import PredictNotes
+from PredictNotes import PredictNotes
 
 app = Flask(__name__)
 
@@ -39,9 +39,8 @@ def get_notes():
     sound = AudioSegment.from_mp3(tempfilename)
     sound.export(output_file, format="wav")
     a, sr = librosa.load(output_file)
-    return jsonify({'not getting much': 'here'})
-    # predict_notes = PredictNotes()
-    # return jsonify({f"notes": predict_notes.main(a, sr)})
+    predict_notes = PredictNotes()
+    return jsonify({f"notes": predict_notes.main(a, sr)})
 
 
 if __name__ == "__main__":
