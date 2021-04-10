@@ -1,12 +1,8 @@
 import pathlib
 import librosa
-import librosa.display
-import tensorflow as tf
 from tensorflow import keras
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelBinarizer
-import seaborn as sns
 import glob
 import re
 import json
