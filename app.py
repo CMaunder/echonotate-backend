@@ -6,7 +6,8 @@ from pydub import AudioSegment
 import boto3
 from decouple import config
 import jwt
-from PredictNotes import PredictNotes
+from predictNotes import PredictNotes
+from convertNotesToXML import ConverNotesToXML
 
 app = Flask(__name__)
 
@@ -16,7 +17,6 @@ def get_notes():
     auth_token = auth_header.split()[1]
     try:
         payload = jwt.decode(auth_token, config('AUTH_JWT_SECRET_KEY'), algorithms=["HS256"])
-        print(payload)
     except jwt.ExpiredSignatureError:
         return 'Signature expired.', 403
     except jwt.InvalidTokenError:
@@ -40,7 +40,13 @@ def get_notes():
     sound.export(output_file, format="wav")
     a, sr = librosa.load(output_file)
     predict_notes = PredictNotes()
-    return jsonify({f"notes": predict_notes.main(a, sr)})
+    convertNotesToXML = ConverNotesToXML()
+    predicted_notes = predict_notes.main(a, sr)
+
+    return jsonify({
+        "notes": predicted_notes,
+        "xml" : convertNotesToXML.main(predicted_notes)
+    })
 
 
 if __name__ == "__main__":

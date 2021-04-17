@@ -34,7 +34,6 @@ class PredictNotes:
     prev_elem = None
     curr_elem_length = 0
     required_frames_to_be_note = self.REQUIRED_DURATION_TO_BE_NOTE * fps
-    print(f"required_frames_to_be_note: {required_frames_to_be_note}")
     for elemIdx in range(len(y_prediction)):
         if y_prediction[elemIdx] != prev_elem:
             if curr_elem_length >= required_frames_to_be_note:
@@ -65,7 +64,6 @@ class PredictNotes:
     model = keras.models.load_model('./models/notePredictModel.h5')
     y_log_scale = self.convert_audio_to_spectrogram(audio_track)
     frames_per_second = len(y_log_scale[0]) / length_of_track_s
-    print(f"frames per second {frames_per_second}")
     data_images = []
     for frame in range(len(y_log_scale[0]) - self.FRAMES_PER_IMAGE):
         data_images.append(

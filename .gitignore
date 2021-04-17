@@ -3,3 +3,4 @@ tabscribe-predict-notes-venv
 tsvenv
 .env
 tempSoundFiles
+__pycache__
