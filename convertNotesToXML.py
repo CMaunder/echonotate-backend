@@ -6,19 +6,22 @@ class ConverNotesToXML:
   def main(self, predicted_notes):
     print(predicted_notes)
 
+    #todo generate measures
+
+    octave_shift = 1
     notes_to_print = ''
     tab_to_print = ''
     for note in predicted_notes:
       note_info = predicted_notes[note]
       print(note_info)
+
+
       if len(note_info[2]) == 3:
-        print(note_info[2][0])
-        print(note_info[2][2])
         notes_to_print += f'<note default-x="82">\
                 <pitch>\
                     <step>{note_info[2][0]}</step>\
                     <alter>1</alter>\
-                    <octave>{note_info[2][2]}</octave>\
+                    <octave>{int(note_info[2][2])+octave_shift}</octave>\
                 </pitch>\
                 <duration>2</duration>\
                 <voice>1</voice>\
@@ -33,7 +36,7 @@ class ConverNotesToXML:
                 <pitch>\
                     <step>{note_info[2][0]}</step>\
                     <alter>1</alter>\
-                    <octave>{note_info[2][2]}</octave>\
+                    <octave>{int(note_info[2][2])+octave_shift}</octave>\
                 </pitch>\
                 <duration>2</duration>\
                 <voice>1</voice>\
@@ -51,7 +54,7 @@ class ConverNotesToXML:
         notes_to_print += f'<note default-x="82">\
                 <pitch>\
                     <step>{note_info[2][0]}</step>\
-                    <octave>{note_info[2][1]}</octave>\
+                    <octave>{int(note_info[2][1])+octave_shift}</octave>\
                 </pitch>\
                 <duration>2</duration>\
                 <voice>1</voice>\
@@ -64,7 +67,7 @@ class ConverNotesToXML:
         tab_to_print += f'<note default-x="82">\
                 <pitch>\
                     <step>{note_info[2][0]}</step>\
-                    <octave>{note_info[2][1]}</octave>\
+                    <octave>{int(note_info[2][1])+octave_shift}</octave>\
                 </pitch>\
                 <duration>2</duration>\
                 <voice>1</voice>\
